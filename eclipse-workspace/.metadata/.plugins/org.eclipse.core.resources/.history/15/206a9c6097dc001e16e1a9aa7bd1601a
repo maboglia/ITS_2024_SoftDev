@@ -1,0 +1,32 @@
+package cani;
+
+public class Cane {
+	
+	String nome=null;
+	String taglia;
+	String razza;
+	int eta;
+
+	public Cane(String _nome, String taglia, String razza, int eta) {
+		super();
+		this.nome = _nome;
+		this.taglia = taglia;
+		this.razza = razza;
+		this.eta = eta;
+	}
+
+
+
+
+	public String stampaCartellino() {
+		
+		String output = "Cane: \n" +
+						nome +"\n"+
+						taglia + "\n"+
+						razza + "\n"+
+						eta +"\n";
+		return output;
+		
+	}
+	
+}

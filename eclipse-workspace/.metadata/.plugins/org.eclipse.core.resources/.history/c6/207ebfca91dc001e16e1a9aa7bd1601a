@@ -1,0 +1,21 @@
+package cani;
+
+public class Cane {
+	
+	String nome;
+	String taglia;
+	String razza;
+	int eta;
+
+	public String stampaCartellino() {
+		
+		String output = "Cane: \n" +
+						nome +"\n"+
+						taglia + "\n"+
+						razza + "\n"+
+						eta +"\n";
+		return output;
+		
+	}
+	
+}
