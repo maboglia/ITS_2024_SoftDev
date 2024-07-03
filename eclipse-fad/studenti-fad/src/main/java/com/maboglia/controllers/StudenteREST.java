@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.maboglia.entities.Corso;
 import com.maboglia.entities.Studente;
 import com.maboglia.services.StudenteService;
 
@@ -21,6 +23,13 @@ public class StudenteREST {
 
 	@Autowired
 	private StudenteService service;
+	
+	@GetMapping("corsi/{id}")
+	public Corso getCorso(@PathVariable int id) {
+		return service.getCorso(id);
+	}
+	
+	
 	
 	@GetMapping("students")
 	public ResponseEntity<List<Studente>> getStudenti(){

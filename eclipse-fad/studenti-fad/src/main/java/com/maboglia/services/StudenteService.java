@@ -2,6 +2,7 @@ package com.maboglia.services;
 
 import java.util.List;
 
+import com.maboglia.entities.Corso;
 import com.maboglia.entities.Studente;
 
 public interface StudenteService {
@@ -11,4 +12,7 @@ public interface StudenteService {
 	
 	Studente addStudente(Studente s);
 	
+	List<Studente> getStudentiByCorso(int idCorso);
+	
+	Corso getCorso(int id);
 }
