@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+    <style>
+        #quiz img {
+            width: 100px;
+            height: 70px;
+            border: 1px solid #ccc;
+        }
+
+        img.mini {
+            width: 50px;
+            height: 35px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Quiz paesi del mondo</h1>
+        <div class="row" th:insert="menu.html :: menu">
+        </div>
+
+		<div class="row" th:insert="menu.html :: punteggio">
+        </div>
+        
+        <div id="quiz" class="row">
+            <div>
+                <h1 class="domanda"></h1>
+            </div>
+            <div class="col-3"><img class="img" id="box1" src="" alt=""> </div>
+            <div class="col-3"><img class="img" id="box2" src="" alt=""> </div>
+            <div class="col-3"><img class="img" id="box3" src="" alt=""> </div>
+            <h2 class="" id="risposta"></h2>
+            <button class="btn btn-primary" id="play">Play</button>
+
+        </div>
+    </div>
+
+
+    <script>
+
+        const URL = '/api/paesi/3'
+        document.querySelector('#punteggio').textContent = 'Punteggio ' + sessionStorage.getItem('punteggio')
+        if (!sessionStorage.getItem('punteggio')) {
+            sessionStorage.setItem('punteggio', 0);
+        }
+        document.getElementById('play').onclick = function () {
+            location.reload();
+        }
+        fetch(URL)
+            .then(res => res.json())
+            .then(paesi => {
+
+                let quiz = {
+                    'domanda': '',
+                    'risposte': [],
+                    'risposta': ''
+                }
+                document.getElementById('play').style = 'display:none'
+
+                for (const paese of paesi) {
+                    quiz.domanda = paese.nome
+                    quiz.risposte.push(paese.alpha2Code)
+                }
+                quiz.risposta = quiz.risposte[2]
+                quiz.risposte.sort()
+                document.querySelector('.domanda').textContent = quiz.domanda
+                document.querySelector('#box1').src = '/img/' + quiz.risposte[0] + '.png'
+                document.querySelector('#box1').alt = quiz.risposte[0]
+                document.querySelector('#box2').src = '/img/' + quiz.risposte[1] + '.png'
+                document.querySelector('#box2').alt = quiz.risposte[1]
+                document.querySelector('#box3').src = '/img/' + quiz.risposte[2] + '.png'
+                document.querySelector('#box3').alt = quiz.risposte[2]
+
+
+                document.querySelector('#box1').addEventListener('click',
+                    function () {
+                        if (this.alt == quiz.risposta)
+                            vittoria(this.alt)
+                        else
+                            sconfitta(this.alt, quiz.risposta)
+                    }
+                )
+                document.querySelector('#box2').addEventListener('click',
+                    function () {
+                        if (this.alt == quiz.risposta)
+                            vittoria(this.alt)
+                        else
+                            sconfitta(this.alt, quiz.risposta)
+                    }
+                )
+                document.querySelector('#box3').addEventListener('click',
+                    function () {
+                        if (this.alt == quiz.risposta)
+                            vittoria(this.alt)
+                        else
+                            sconfitta(this.alt, quiz.risposta)
+                    }
+                )
+
+            })
+        function vittoria(testo) {
+            document.querySelector('#risposta').textContent = 'Hai risposto correttamente: ' + testo;
+            document.getElementById('play').style = 'display:visible'
+            let counter = sessionStorage.getItem('punteggio')
+            console.log(counter++)
+            sessionStorage.setItem('punteggio', counter)
+
+        }
+
+        function sconfitta(testo, esatta) {
+            document.querySelector('#risposta').innerHTML = `Hai risposto NON correttamente: ${testo}, la risposta corretta &egrave; <img class='mini' src='/img/${esatta}.png'>`;
+            document.getElementById('play').style = 'display:visible'
+            let counter = sessionStorage.getItem('punteggio')
+            console.log(counter--)
+            sessionStorage.setItem('punteggio', counter)
+
+        }
+    </script>
+
+
+</body>
+
+</html>

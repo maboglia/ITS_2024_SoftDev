@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Quiz paesi del mondo</h1>
+        <div class="row" th:insert="menu.html :: menu"></div>
+
+        <div id="quiz" class="card" style="width: 18rem;margin:auto;">
+            <img class="card-img-top" id="box1" src="" alt="">
+            <div class="card-body">
+                <h5 class="card-title domanda">Card title</h5>
+                <p class="card-text" id="scheda">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+                <button class="btn btn-primary" id="play">Play</button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        const URL = '/api/paese'
+
+        document.getElementById('play').onclick = function () {
+            location.reload();
+        }
+        fetch(URL)
+            .then(res => res.json())
+            .then(paese => {
+
+                let quiz = {
+                    'domanda': '',
+                    'risposte': [],
+                    'risposta': ''
+                }
+                //document.getElementById('play').style = 'display:none'
+
+               
+                console.log(paese)
+                quiz.domanda = paese.nome
+                quiz.risposte.push(paese.alpha2Code)
+               
+                quiz.risposta = quiz.risposte[0]
+                quiz.risposte.sort()
+                document.querySelector('.domanda').textContent = quiz.domanda
+                document.querySelector('#box1').src = '/img/' + quiz.risposte[0] + '.png'
+                document.querySelector('#box1').alt = quiz.risposte[0]
+                document.querySelector('#scheda').innerHTML = `Capitale <strong>${paese.capitale}</strong><br>Regione <strong>${paese.region}</strong><br>Sub-Regione <strong>${paese.subregion}</strong><br>Popolazione <strong>${paese.population.toLocaleString()}</strong>`
+                
+
+                document.querySelector('#box1').addEventListener('click',
+                    function () {
+                        if (this.alt == quiz.risposta)
+                            vittoria(this.alt)
+                    }
+                )
+
+            })
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Quiz paesi del mondo</h1>
+        <div class="row" th:insert="menu.html :: menu">
+        </div>
+
+        <div id="quiz" class="card" style="width: 18rem;margin:auto;">
+            
+            <div class="card-body">
+                <h5 class="card-title domanda">Card title</h5>
+                <h6 class="card-text" id="box1">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</h6>
+                <button class="btn btn-primary" id="play">Play</button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        const URL = '/api/paese'
+
+        document.getElementById('play').onclick = function () {
+            location.reload();
+        }
+
+        fetch(URL)
+            .then(res => res.json())
+            .then(paese => {
+
+                let quiz = {
+                    'domanda': '',
+                    'risposta': ''
+                }
+
+				console.log(paese)
+                //document.getElementById('play').style = 'display:none'
+
+                quiz.domanda = paese.nome
+                quiz.risposta = paese.capitale
+                
+                document.querySelector('.domanda').textContent = quiz.domanda
+                document.querySelector('#box1').textContent = quiz.risposta
+
+
+
+
+
+
+
+            })
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

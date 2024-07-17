@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Quiz paesi del mondo</h1>
+        <div class="row" th:insert="menu.html :: menu">
+        </div>
+
+        <div class="row" th:insert="menu.html :: punteggio">
+        </div>
+
+        <div id="quiz" class="row">
+            <div>
+                <h1 class="domanda"></h1>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-danger" id="box1"></button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-danger" id="box2"></button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-danger" id="box3"></button>
+            </div>
+            <h2 class="" id="risposta"></h2>
+            <button class="btn btn-primary" id="play">Play</button>
+        </div>
+    </div>
+
+
+    <script>
+
+        const URL = '/api/paesi/3'
+        document.querySelector('#punteggio').textContent = 'Punteggio ' + sessionStorage.getItem('punteggio')
+
+        if (!sessionStorage.getItem('punteggio')) {
+            sessionStorage.setItem('punteggio', 0);
+        }
+
+        document.getElementById('play').onclick = function () {
+            location.reload();
+        }
+
+        fetch(URL)
+            .then(res => res.json())
+            .then(paesi => {
+
+                let quiz = {
+                    'domanda': '',
+                    'risposte': [],
+                    'risposta': ''
+                }
+
+                document.getElementById('play').style = 'display:none'
+
+                for (const paese of paesi) {//ger, fra, spa
+                    quiz.domanda = paese.nome//spagna
+                    quiz.risposte.push(paese.capitale)//berlino, parigi, madrid
+                }
+                quiz.risposta = quiz.risposte[2]//madrid
+                quiz.risposte.sort()//berlino, madrid, parigi
+                document.querySelector('.domanda').textContent = quiz.domanda
+                document.querySelector('#box1').textContent = quiz.risposte[0]
+                document.querySelector('#box2').textContent = quiz.risposte[1]
+                document.querySelector('#box3').textContent = quiz.risposte[2]
+
+
+                document.querySelector('#box1').addEventListener('click',
+                    function () {
+                        if (this.textContent == quiz.risposta)
+                            vittoria(this.textContent)
+                        else
+                            sconfitta(this.textContent, quiz.risposta)
+                    }
+                )
+                document.querySelector('#box2').addEventListener('click',
+                    function () {
+                        if (this.textContent == quiz.risposta)
+                            vittoria(this.textContent)
+                        else
+                            sconfitta(this.textContent, quiz.risposta)
+                    }
+                )
+                document.querySelector('#box3').addEventListener('click',
+                    function () {
+                        if (this.textContent == quiz.risposta)
+                            vittoria(this.textContent)
+                        else
+                            sconfitta(this.textContent, quiz.risposta)
+                    }
+                )
+
+
+            })
+
+        function vittoria(testo) {
+            document.querySelector('#risposta').textContent = 'Hai risposto correttamente: ' + testo;
+            document.getElementById('play').style = 'display:visible'
+            let counter = sessionStorage.getItem('punteggio')
+            console.log(counter++)
+            sessionStorage.setItem('punteggio', counter)
+
+        }
+
+        function sconfitta(testo, esatta) {
+            document.querySelector('#risposta').innerHTML = `Hai risposto NON correttamente: ${testo}, la risposta corretta &egrave; ${esatta}`;
+            document.getElementById('play').style = 'display:visible'
+            let counter = sessionStorage.getItem('punteggio')
+            console.log(counter--)
+            sessionStorage.setItem('punteggio', counter)
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+	<div class="container">
+
+		<h1>Quiz paesi del mondo</h1>
+		
+		<div class="row" th:insert="menu.html :: menu"></div>
+
+		<div class="d-flex align-content-start flex-wrap m-5" id="bandiere"></div>
+
+		<script>
+
+			const URL = '/api/paesi/30'
+
+			fetch(URL)
+				.then(res => res.json())
+				.then(paesi => {
+					for (const paese of paesi) {
+						const IMG = document.createElement('img')
+						IMG.src = '/img/' + paese.alpha2Code + '.png'
+						IMG.setAttribute('class', 'img-thumbnail')
+						document.getElementById('bandiere').append(IMG)
+
+					}
+				});
+
+		</script>
+
+
+	</div>
+</body>
+
+</html>

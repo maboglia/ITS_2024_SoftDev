@@ -2,4 +2,6 @@
 <typeInfoHistroy>
     <typeInfo handle="=Prj14_Brawlers/C:\/Users\/m.bogliaccino\/.m2\/repository\/org\/springframework\/data\/spring-data-jpa\/3.3.1\/spring-data-jpa-3.3.1.jar=/maven.pomderived=/true=/=/maven.groupId=/org.springframework.data=/=/maven.artifactId=/spring-data-jpa=/=/maven.version=/3.3.1=/=/maven.scope=/compile=/=/maven.pomderived=/true=/&lt;org.springframework.data.jpa.repository(JpaRepository.class[JpaRepository" modifiers="1537" timestamp="1718355296000"/>
     <typeInfo handle="=Prj14_Brawlers/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.maboglia.services{BrawlerService.java[BrawlerService" modifiers="513" timestamp="1719493274551"/>
+    <typeInfo handle="=laboratorio/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.maboglia.interfacce{ZeroMethod.java[ZeroMethod" modifiers="513" timestamp="1720598901445"/>
+    <typeInfo handle="=laboratorio/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.maboglia.interfacce{Contratto.java[Contratto" modifiers="513" timestamp="1720600362170"/>
 </typeInfoHistroy>
